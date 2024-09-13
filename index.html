@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="cdn/vue.js"></script>
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4603767_12khbsotx2g.css">
+    <!--    jquery-->
+
+</head>
+<body>
+<div id="app">
+    <!--顶部栏-->
+    <div class="top">
+        <img src="./sitePng/feicake.png" alt="">
+        <img src="./sitePng/qiep.png" alt="">
+        <img class="center" src="./sitePng/fei2.0.png" alt="">
+    </div>
+
+    <div class="main">
+        <!--        左侧-->
+        <div class="left">
+            <div class="ltop">
+                <img src="./sitePng/fei.png" alt="">
+                <img src="./sitePng/sliceMemorry.png" alt="">
+                <div class="down">
+                    <img src="./sitePng/warntip.png" alt="">
+                    <i @click="show1 = !show1" class="iconfont icon-xiajiang_huaban"></i>
+                    <span v-if="show1">你的人生比展示的更精彩</span>
+                </div>
+
+            </div>
+
+            <!--      人物话语显示区域      -->
+
+            <div class="lcenter">
+                <!--                短语-->
+                <div class="textBig">{{shortWord[curindex]}}</div>
+                <!--                回忆照片-->
+                <img :src="MbackImg[curindex]" alt="">
+                <span> <i class="iconfont icon-xiajiang_huaban"></i></span>
+                <!--               回忆语录      -->
+                <img :src="MWord[curindex]" alt="">
+            </div>
+
+            <div class="lbot">
+                <img src="./sitePng/firstCake.png" alt="">
+            </div>
+
+        </div>
+        <div class="center">
+            <!--            三棱柱-->
+            <div class="box">
+                <div class="san shake3">
+                    <!--                    <canvas class="Canvas" width="500" height="200"></canvas>-->
+                    <div class="face">
+                        <div v-show="face[12]" class="faceC">
+
+
+                            <!--                    用于放置蛋糕内容-->
+                        </div>
+
+
+                        <div v-for="i in 11" v-show="face[i]" :data-index="i" class="faceC">
+                            <div @click="handelerClick(i)" class="TimeC" :class=" 't' + i" :key="i">
+                                {{times[11 - i]}}
+                            </div>
+                            <div class="cakeImg">
+                                <img :src="cakeBOveImg[11-i]" alt="">
+                            </div>
+                            <div class="side">
+
+                            </div>
+                            <!--                    用于放置蛋糕内容-->
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="bar">
+                <input class="custom-slider" style="color: pink" @change="handleChange" type="range" min="0" max="100" v-model="anger"/>
+            </div>
+
+
+        </div>
+
+        <div class="right">
+            <div class="rtop">
+                <transition name="slide-fade">
+                    <img :src="dateImg[curindex]" alt="">
+                </transition>
+            </div>
+            <div class="words">
+                <transition name="slide-fade">
+                    <img :src="moreWordsImg[curindex]" alt="">
+                </transition>
+            </div>
+        </div>
+    </div>
+
+    <!--        绝对定位-->
+    <div class="bot">
+        <transition name="slide-fade">
+            <img :src="colorFulImg[curindex]" alt="">
+        </transition>
+        <transition name="slide-fade">
+            <img :src="wordBot[curindex]" alt="">
+        </transition>
+    </div>
+
+
+    <!--        用于放置时间蛋糕盒-->
+
+</div>
+
+
+</div>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            anger: 1,
+            show1: false,
+            curindex: 0,
+            face: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1,1],//            1代表显示 0代表不显示
+            msg: 'hello world',
+            cakeBOveImg: [
+                "./cakeBoveImg/1.png",
+                "./cakeBoveImg/2.png",
+                "./cakeBoveImg/3.png",
+                "./cakeBoveImg/4.png",
+                "./cakeBoveImg/5.png",
+                "./cakeBoveImg/6.png",
+                "./cakeBoveImg/7.png",
+                "./cakeBoveImg/8.png",
+                "./cakeBoveImg/9.png",
+                "./cakeBoveImg/10.png",
+                "./cakeBoveImg/11.png",
+            ],
+            // 时间线
+            times: ['2023.6', '2023.7-8', '2023.9', '2023.10', '2023.11', '2023.12', '2024.1-2', '2024.3', '2024.4-5', '2024.6-7', '2024.8-9'],
+            // shortWord
+            shortWord: ["加载中 》》", "你好,GAFA!", "朋友\n" +
+            "很高兴认识你", "解析饭堂与表达", "创造力时刻+", "冬天我困了", "烟花时间", "春和景明",
+                "小猫和花陪伴我", "好在有设计", "以后的切片"
+            ],
+            //     回忆图片
+            MbackImg: ['./cakeLeft/1.png', './cakeLeft/2.png', './cakeLeft/3.png', './cakeLeft/4.png', './cakeLeft/5.png', './cakeLeft/6.png',
+                './cakeLeft/7.png', './cakeLeft/8.png', './cakeLeft/9.png', './cakeLeft/10.png', './cakeLeft/11.png'
+            ],
+
+            //     回忆文字
+            MWord: [
+                "./textImg/1.png",
+                "./textImg/2.png",
+                "./textImg/3.png",
+                "./textImg/4.png",
+                "./textImg/5.png",
+                "./textImg/6.png",
+                "./textImg/7.png",
+                "./textImg/8.png",
+                "./textImg/9.png",
+                "./textImg/10.png",
+                "./textImg/11.png"
+            ],
+            //   日期图片
+            dateImg: [
+                "./dateImg/1.png",
+                "./dateImg/2.png",
+                "./dateImg/3.png",
+                "./dateImg/4.png",
+                "./dateImg/5.png",
+                "./dateImg/6.png",
+                "./dateImg/7.png",
+                "./dateImg/8.png",
+                "./dateImg/9.png",
+                "./dateImg/10.png",
+                "./dateImg/11.png"
+            ],
+            // 大段文字内容图片
+            moreWordsImg: [
+                "./wordsImg/1.png",
+                "./wordsImg/2.png",
+                "./wordsImg/3.png",
+                "./wordsImg/4.png",
+                "./wordsImg/5.png",
+                "./wordsImg/6.png",
+                "./wordsImg/7.png",
+                "./wordsImg/8.png",
+                "./wordsImg/9.png",
+                "./wordsImg/10.png",
+                "./wordsImg/11.png"
+            ],
+            //     底部彩色文字图片
+            colorFulImg: [
+                "./colorFulImg/1.png",
+                "./colorFulImg/2.png",
+                "./colorFulImg/3.png",
+                "./colorFulImg/4.png",
+                "./colorFulImg/5.png",
+                "./colorFulImg/6.png",
+                "./colorFulImg/7.png",
+                "./colorFulImg/8.png",
+                "./colorFulImg/9.png",
+                "./colorFulImg/10.png",
+                "./colorFulImg/11.png"
+            ],
+            //     底部 黑体文字
+            wordBot: [
+                "./wordBot/1.png",
+                "./wordBot/2.png",
+                "./wordBot/3.png",
+                "./wordBot/4.png",
+                "./wordBot/5.png",
+                "./wordBot/6.png",
+                "./wordBot/7.png",
+                "./wordBot/8.png",
+                "./wordBot/9.png",
+                "./wordBot/10.png",
+                "./wordBot/11.png"
+            ]
+
+
+        },
+        methods: {
+            //     元素移除
+            remove: function (e) {
+                // 移除父元素
+                e.target.parentNode.parentNode.removeChild(e.target.parentNode);
+            },
+            handelerClick(i) {
+                //
+                if(i === 11)
+                document.querySelector('.san').classList.remove('shake3')
+                this.curindex = 11 - i + 1;
+                this.curindex = this.curindex > 10 ? 10 : this.curindex
+                // 如果到底了，
+                //
+                console.log(i)
+                document.querySelectorAll('.faceC[data-index]').forEach((item) => {
+                    let index = parseInt(item.getAttribute('data-index'))
+                    if (index === i) {
+                        this.face[i] = 0;
+                        if(11 - i >= 6) {
+                            this.shake2('.san')
+                        }
+                        else this.shake('.san')
+                    }
+                    console.log(11 - i)
+                    if (11 - i === 6) {
+                        document.querySelector(".san").style = " transform: translateX(50%) translateY(30%) rotateY(130deg) ;"
+
+                        //     for
+                        for (let j = 1; j <= 6; j++) {
+                            document.querySelector(`${'.t' + j}`).style = " transform: rotateY(-160deg);"
+
+                        }
+
+                    }
+                    if (11 - i === 10) {
+                        document.querySelector(".san").style = " transform: translateX(50%) translateY(30%) rotateY(0deg) ;"
+
+                        //     for
+                        for (let j = 1; j <= 6; j++) {
+                            document.querySelector(`${'.t' + j}`).style = `transform: rotateY(${-22 * j}deg);`
+                        }
+                        document.querySelector('.san').classList.add('shake3')
+                        this.face[12] = 0;
+                        setTimeout(()=>{
+                        //     将 face数组 全 置为 1
+                            this.face = this.face.map((item) => {
+                                return 1
+                            })
+                        } ,500)
+                    }
+                })
+            },
+            handleChange() {
+                // 做一个节流操作  ， 防止频繁触发
+                // if (this.timer) return
+                // this.timer = true
+                // setTimeout(() => {
+                //     this.timer = false
+                // }, 500)
+                // this.anger += 1
+
+                const deg = this.anger * 36
+                document.querySelector(".san").style = ` transform: translateX(50%) translateY(30%) rotateY(${deg}deg) ;`
+
+
+            } ,
+            shake(el) {
+            //     使用  js 控制动画
+                const shake = document.querySelector(el)
+                shake.classList.add('shake')
+                setTimeout(() => {
+                    shake.classList.remove('shake')
+                }, 500)
+
+
+            } ,
+            shake2(el) {
+                //     使用  js 控制动画
+                const shake = document.querySelector(el)
+                shake.classList.add('shake2')
+                setTimeout(() => {
+                    shake.classList.remove('shake2')
+                }, 500)
+
+
+            } ,
+        //     重现
+
+
+
+        }
+    })
+</script>
+
+</body>
+</html>
