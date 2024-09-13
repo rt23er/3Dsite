@@ -185,6 +185,7 @@
           .main .center .box .san .face .faceC:nth-child(1) {
             background: wheat; }
     .main .center .bar {
+      width: 400px;
       position: absolute;
       bottom: 1%; }
   .main .right {
