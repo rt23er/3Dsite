@@ -86,7 +86,11 @@
 
             </div>
             <div class="bar">
-                <input class="custom-slider" style="color: pink" @change="handleChange" type="range" min="0" max="100" v-model="anger"/>
+                <input class="custom-slider" style="color: pink" @change="handleChange" type="range" min="0" max="360"
+                       v-model="anger"/>
+
+             <button @click="animate(0, 20)">0-20 </button>
+                <button @click="animate(20, 40)">20-40 </button>
             </div>
 
 
@@ -130,7 +134,7 @@
             anger: 1,
             show1: false,
             curindex: 0,
-            face: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ,1,1],//            1代表显示 0代表不显示
+            face: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],//            1代表显示 0代表不显示
             msg: 'hello world',
             cakeBOveImg: [
                 "./cakeBoveImg/1.png",
@@ -226,8 +230,10 @@
                 "./wordBot/9.png",
                 "./wordBot/10.png",
                 "./wordBot/11.png"
-            ]
-
+            ],
+            timer: false,
+            Curdeg: 0,
+            lastDeg: 0,
 
         },
         methods: {
@@ -238,8 +244,8 @@
             },
             handelerClick(i) {
                 //
-                if(i === 11)
-                document.querySelector('.san').classList.remove('shake3')
+                if (i === 11)
+                    document.querySelector('.san').classList.remove('shake3')
                 this.curindex = 11 - i + 1;
                 this.curindex = this.curindex > 10 ? 10 : this.curindex
                 // 如果到底了，
@@ -249,10 +255,9 @@
                     let index = parseInt(item.getAttribute('data-index'))
                     if (index === i) {
                         this.face[i] = 0;
-                        if(11 - i >= 6) {
+                        if (11 - i >= 6) {
                             this.shake2('.san')
-                        }
-                        else this.shake('.san')
+                        } else this.shake('.san')
                     }
                     console.log(11 - i)
                     if (11 - i === 6) {
@@ -274,31 +279,35 @@
                         }
                         document.querySelector('.san').classList.add('shake3')
                         this.face[12] = 0;
-                        setTimeout(()=>{
-                        //     将 face数组 全 置为 1
+                        setTimeout(() => {
+                            //     将 face数组 全 置为 1
                             this.face = this.face.map((item) => {
                                 return 1
                             })
-                        } ,500)
+                        }, 500)
                     }
                 })
             },
             handleChange() {
                 // 做一个节流操作  ， 防止频繁触发
-                // if (this.timer) return
-                // this.timer = true
-                // setTimeout(() => {
-                //     this.timer = false
-                // }, 500)
-                // this.anger += 1
+                if (this.timer) return
 
-                const deg = this.anger * 36
-                document.querySelector(".san").style = ` transform: translateX(50%) translateY(30%) rotateY(${deg}deg) ;`
+                setTimeout(() => {
+                    this.timer = false
+                }, 1000)
+
+                this.timer = true
+                this.Curdeg = parseInt(this.anger)  // 20
+                console.log("cur" +this.Curdeg)
+                console.log("last" +this.lastDeg)
+                // 0 - 20
+                this.animate(this.lastDeg , this.Curdeg)
+                this.lastDeg = this.Curdeg  // 20deg
 
 
-            } ,
+            },
             shake(el) {
-            //     使用  js 控制动画
+                //     使用  js 控制动画
                 const shake = document.querySelector(el)
                 shake.classList.add('shake')
                 setTimeout(() => {
@@ -306,7 +315,7 @@
                 }, 500)
 
 
-            } ,
+            },
             shake2(el) {
                 //     使用  js 控制动画
                 const shake = document.querySelector(el)
@@ -316,9 +325,32 @@
                 }, 500)
 
 
-            } ,
-        //     重现
+            },
+            //     重现
+            //     动画函数 传入 从多少度到多少度
+            animate(from, to ,duration = 1000)  {
 
+                const start = Date.now()
+                const timer = setInterval(() => {
+                    const t = Date.now() - start //  进行的时间
+                    const b = from  // 初始值
+                    const c = to - from //  移动的距离
+                    const d = duration //  持续时间
+                    const value = this.linear(t, b, c, d)
+                    document.querySelector(".san").style = ` transform: translateX(50%) translateY(30%) rotateY(${value}deg) ;`
+                    if (t >= d) {
+                        clearInterval(timer)
+                    }
+
+
+                }, 100)
+            },
+            //     缓动函数 贝塞尔曲线
+
+        //     线性
+            linear(t, b, c, d) {
+                return c * (t /= d) + b;
+            }
 
 
         }
