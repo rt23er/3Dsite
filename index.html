@@ -60,12 +60,12 @@
                     <div class="face">
                         <div v-show="face[12]" class="faceC">
 
-
                             <!--                    用于放置蛋糕内容-->
                         </div>
 
 
                         <div v-for="i in 11" v-show="face[i]" :data-index="i" class="faceC">
+                            <canvas class="Mcanvas" width="500" height="200"></canvas>
                             <div @click="handelerClick(i)" class="TimeC" :class=" 't' + i" :key="i">
                                 {{times[11 - i]}}
                             </div>
@@ -75,6 +75,7 @@
                             <div class="side">
 
                             </div>
+
                             <!--                    用于放置蛋糕内容-->
                         </div>
 
@@ -233,7 +234,17 @@
             timer: false,
             Curdeg: 0,
             lastDeg: 0,
+        //     颜色数组
+            colors: ['#ffcccb', '#ffb6c1', '#ff69b4', '#ff1493', '#e6e6fa', '#d8bfd8', '#dda0dd']
 
+            //     颜色数组
+
+        },
+        mounted() {
+            this.drawTriangle()
+            this.$nextTick(() => {
+
+            })
         },
         methods: {
             //     元素移除
@@ -297,10 +308,10 @@
 
                 this.timer = true
                 this.Curdeg = parseInt(this.anger)  // 20
-                console.log("cur" +this.Curdeg)
-                console.log("last" +this.lastDeg)
+                console.log("cur" + this.Curdeg)
+                console.log("last" + this.lastDeg)
                 // 0 - 20
-                this.animate(this.lastDeg , this.Curdeg)
+                this.animate(this.lastDeg, this.Curdeg)
                 this.lastDeg = this.Curdeg  // 20deg
 
 
@@ -327,7 +338,7 @@
             },
             //     重现
             //     动画函数 传入 从多少度到多少度
-            animate(from, to ,duration = 1000)  {
+            animate(from, to, duration = 1000) {
 
                 const start = Date.now()
                 const timer = setInterval(() => {
@@ -346,9 +357,32 @@
             },
             //     缓动函数 贝塞尔曲线
 
-        //     线性
+            //     线性
             linear(t, b, c, d) {
                 return c * (t /= d) + b;
+            }
+            ,
+            //     利用 cavans 绘制三角形
+            drawTriangle() {
+
+                const canvas = document.querySelectorAll('.Mcanvas')
+               canvas.forEach((item) => {
+                   const ctx = item.getContext('2d')
+                   //  绘制一个夹角为 22度的扇形
+                   const drawSector = (x, y, r, startAngle, endAngle) => {
+                       ctx.beginPath()
+                       ctx.moveTo(x, y)
+                       ctx.arc(x, y, r, startAngle, endAngle)
+                       // 设置颜色
+                       ctx.fillStyle = this.colors[Math.floor(Math.random() * 6)]
+                       ctx.closePath()
+                       ctx.fill()
+                   }
+                   //  绘制一个夹角为 22度的扇形
+                   drawSector(0, 0, 400, 0, 22 * (Math.PI / 180))
+                   item.style = "transform: rotateX(90deg); transform-origin:top;"
+})
+
             }
 
 

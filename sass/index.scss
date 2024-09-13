@@ -220,6 +220,7 @@ $rightc: #ff00ff;
     .bar {
       position: absolute;
       bottom: 1%;
+      width: 400px;
     }
 
     //  有11个 .san  用scss 循环生成 旋转角度 为 0 30 60 90 120 150 180 210 240 270 300
@@ -400,3 +401,8 @@ $rightc: #ff00ff;
   transform: rotateY(-160deg);
 }
 
+.Mcanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}

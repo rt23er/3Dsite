@@ -185,9 +185,9 @@
           .main .center .box .san .face .faceC:nth-child(1) {
             background: wheat; }
     .main .center .bar {
-      width: 400px;
       position: absolute;
-      bottom: 1%; }
+      bottom: 1%;
+      width: 400px; }
   .main .right {
     margin-right: 0.6rem;
     border: 2px solid #eaa0ff;
@@ -316,5 +316,10 @@
 
 .timeCover {
   transform: rotateY(-160deg); }
+
+.Mcanvas {
+  position: absolute;
+  top: 0;
+  left: 0; }
 
 /*# sourceMappingURL=index.css.map */
